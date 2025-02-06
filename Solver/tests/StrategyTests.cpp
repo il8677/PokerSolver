@@ -14,6 +14,9 @@ SCENARIO("Strategies can be created") {
 					}
 				}
 			}
+
 		}
+
 	}
+
 }
