@@ -22,6 +22,10 @@ public:
 	float getAction(const InformationSet& iSet, size_t index) {
 		return actionsPerISet.at(iSet)[index];
 	}
+
+	void updateAction(const InformationSet& iSet, Actions a) {
+		actionsPerISet[iSet] = a;
+	}
 private:
 	std::unordered_map<InformationSet, Actions> actionsPerISet;
 };

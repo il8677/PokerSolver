@@ -20,3 +20,19 @@ SCENARIO("Strategies can be created") {
 	}
 
 }
+
+SCENARIO("Strategies can be updated") {
+	GIVEN("An information set") {
+		InfromationPartition set = {"a", "ab", "abc"};
+		WHEN("A strategy is created") {
+			Strategy<3> strategy(set);
+			THEN("The actions can be updated") {
+				strategy.updateAction("a", {0.25, 0.375, 0.375});
+
+				REQUIRE(strategy.getAction("a", 0) == Catch::Approx(0.25));
+			}
+
+		}
+
+	}
+}
