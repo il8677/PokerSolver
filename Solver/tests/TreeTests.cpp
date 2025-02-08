@@ -14,6 +14,10 @@ SCENARIO("Tree children management") {
 			THEN("Child count is incremented") {
 				REQUIRE(node.getChildCount() == 1);
 			}
+
+			THEN("The children can be retrieved") {
+				REQUIRE(node.getChild(0) != nullptr);
+			}
 		}
 	}
 }

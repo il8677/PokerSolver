@@ -19,6 +19,8 @@ public:
 		children_.emplace_back(std::make_unique<T>(args...));
 	}
 
+	TreeNode* getChild(size_t i) { return children_[i].get(); }
+
 private:
 	std::vector<std::unique_ptr<TreeNode>> children_;
 };
