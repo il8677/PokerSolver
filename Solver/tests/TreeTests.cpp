@@ -8,5 +8,12 @@ SCENARIO("Tree children management") {
 		THEN("It starts with no children") {
 			REQUIRE(node.getChildCount() == 0);
 		}
+
+		WHEN("A child is added") {
+			node.emplaceChild<TreeNode>();
+			THEN("Child count is incremented") {
+				REQUIRE(node.getChildCount() == 1);
+			}
+		}
 	}
 }
