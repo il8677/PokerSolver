@@ -26,7 +26,8 @@ private:
 };
 
 class CardNode : public TreeNode {
-
+public:
+	CardNode();
 };
 
 class OpponentNode : public TreeNode {

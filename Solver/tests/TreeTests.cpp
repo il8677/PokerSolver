@@ -21,3 +21,9 @@ SCENARIO("Tree children management") {
 		}
 	}
 }
+
+SCENARIO("Card nodes") {
+	GIVEN("A card node") {
+		CardNode node;
+	}
+}
