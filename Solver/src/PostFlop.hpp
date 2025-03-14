@@ -4,11 +4,12 @@
 #include <memory>
 #include <array>
 
-enum class Actions {
+enum Action : size_t {
 	CHECK_FOLD,
 	CALL,
 	RAISE_HALF,
 	RAISE_1,
+    RAISE_15,
 	ACTION_COUNT
 };
 
@@ -31,7 +32,5 @@ struct PokerCard {
 };
 
 const int BET_LIMIT = 3;
-const std::array<double, 3> POT_MULTIPLIERS{ 0.5, 1, 1.5 };
-const size_t ACTIONS_PER_HAND = POT_MULTIPLIERS.size() + 2;
 
 void HandlePlayerNode(PlayerNode* node);
