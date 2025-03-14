@@ -7,12 +7,14 @@
 
 class TreeNode {
 protected:
-	TreeNode()=default;
+	TreeNode() = default;
 
-	TreeNode(const TreeNode&)=delete;
-	TreeNode& operator=(const TreeNode&)=delete;
+	TreeNode(const TreeNode&) = delete;
+	TreeNode& operator=(const TreeNode&) = delete;
 
 public:
+	virtual ~TreeNode() = default;
+
 	size_t getChildCount() const { return children_.size(); }
 
 	template <typename T, typename... Args>
@@ -25,6 +27,9 @@ public:
 
 	TreeNode* getChild(size_t i) { return children_[i].get(); }
 
+	auto begin() { return children_.begin(); }
+	auto end()   { return children_.end(); }
+
 private:
 	TreeNode* parent_ = nullptr;
 	std::vector<std::unique_ptr<TreeNode>> children_;
@@ -32,14 +37,14 @@ private:
 
 class CardNode : public TreeNode {
 public:
-	CardNode() {
-
-	}
+	CardNode() = default;
+	~CardNode() = default;
 };
 
 class OpponentNode : public TreeNode {
 public:
-
+	OpponentNode() = default;
+	~OpponentNode() = default;
 };
 
 class PlayerNode : public TreeNode {
@@ -48,9 +53,8 @@ class PlayerNode : public TreeNode {
 		float totalRegret;
 	};
 public:
-	PlayerNode(size_t actionCount) : data_(actionCount) {
-
-	}
+	PlayerNode(size_t actionCount) : data_(actionCount) {}
+	~PlayerNode() = default;
 
 private:
 	std::vector<CalcData> data_;
@@ -58,8 +62,7 @@ private:
 
 class TerminalNode : public TreeNode {
 public:
-	TerminalNode() {
-
-	}
+	TerminalNode() = default;
+	~TerminalNode() = default;
 private:
 };

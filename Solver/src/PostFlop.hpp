@@ -1,8 +1,8 @@
 #pragma once
 #include "TreeNode.hpp"
 
-#include <queue>
 #include <memory>
+#include <array>
 
 enum class Actions {
 	CHECK_FOLD,
@@ -30,6 +30,8 @@ struct PokerCard {
     Suit suit;
 };
 
-const int betLimit = 3;
+const int BET_LIMIT = 3;
+const std::array<double, 3> POT_MULTIPLIERS{ 0.5, 1, 1.5 };
+const size_t ACTIONS_PER_HAND = POT_MULTIPLIERS.size() + 2;
 
 void HandlePlayerNode(PlayerNode* node);

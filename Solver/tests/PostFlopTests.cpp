@@ -9,6 +9,9 @@ SCENARIO("Player Node") {
         WHEN("When HandlePlayerNode() is called") {
             THEN("Opponent nodes are added for each action") {
                 HandlePlayerNode(&node);
+                REQUIRE(node.getChildCount() == ACTIONS_PER_HAND);
+                for (auto& child : node) 
+                    REQUIRE(dynamic_cast<OpponentNode*>(child.get()));
             }
         }
     }
