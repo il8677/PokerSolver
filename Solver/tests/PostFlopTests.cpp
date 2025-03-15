@@ -3,9 +3,9 @@
 
 #include "PostFlop.hpp"
 
-SCENARIO("Player Node Generation") {
-    WHEN("HandlePlayerNode() is called") {
-        GIVEN("A Player Node and an empty history") {
+SCENARIO("Empty Histories") {
+    GIVEN("A Player Node") {
+        WHEN("HandlePlayerNode() is called") {
             PlayerNode node { static_cast<size_t>(Action::ACTION_COUNT) };
             HandlePlayerNode(&node, History{});
             THEN("Opponent nodes are added for each action") {
@@ -15,11 +15,9 @@ SCENARIO("Player Node Generation") {
             }
         }
     }
-}
 
-SCENARIO("Opponent Node Generation") {
-    WHEN("HandleOpponentNode() is called") {
-        GIVEN("An Opponent Node and an empty history") {
+    GIVEN("An Opponent Node") {
+        WHEN("HandleOpponentNode() is called") {
             OpponentNode node{};
             HandleOpponentNode(&node, History{});
             THEN("Player nodes are added for each action") {
