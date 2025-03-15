@@ -31,6 +31,13 @@ SCENARIO("Empty histories") {
 
 SCENARIO("One action histories") {
     GIVEN("A check action") {
-        History history{CHECK_FOLD};
+        const History history{CHECK_FOLD};
+        WHEN("HandlePlayerNode() is called") {
+            PlayerNode node{ static_cast<size_t>(Action::ACTION_COUNT) };
+            HandlePlayerNode(node, history);
+            THEN("A node is added for each action") {
+                REQUIRE(node.getChildCount() == ACTION_COUNT);
+            }
+        }
     }
 }
