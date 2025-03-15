@@ -38,6 +38,22 @@ SCENARIO("One action histories") {
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
             }
+
+            THEN("The check action is a card node") {
+                REQUIRE(dynamic_cast<CardNode*>(node.getChild(CHECK_FOLD)));
+            }
+        }
+
+        WHEN("HandleOpponentNode() is called") {
+            OpponentNode node{ static_cast<size_t>(Action::ACTION_COUNT) };
+            HandleOpponentNode(node, history);
+            THEN("A node is added for each action") {
+                REQUIRE(node.getChildCount() == ACTION_COUNT);
+            }
+
+            THEN("The check action is a card node") {
+                REQUIRE(dynamic_cast<CardNode*>(node.getChild(CHECK_FOLD)));
+            }
         }
     }
 }
