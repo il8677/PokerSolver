@@ -15,6 +15,8 @@ enum Action : size_t {
 	ACTION_COUNT
 };
 
+using History = std::vector<Action>;
+
 struct PokerCard {
     Rank rank;
     Suit suit;
@@ -22,5 +24,5 @@ struct PokerCard {
 
 const int BET_LIMIT = 3;
 
-void HandlePlayerNode(PlayerNode* node, History);
-void HandleOpponentNode(OpponentNode* node, History);
+void HandlePlayerNode(PlayerNode* node, const History&);
+void HandleOpponentNode(OpponentNode* node, const History&);

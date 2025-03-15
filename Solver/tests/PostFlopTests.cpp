@@ -3,10 +3,10 @@
 
 #include "PostFlop.hpp"
 
-SCENARIO("Empty Histories") {
-    GIVEN("A Player Node") {
+SCENARIO("Empty histories") {
+    GIVEN("A player node") {
+        PlayerNode node { static_cast<size_t>(Action::ACTION_COUNT) };
         WHEN("HandlePlayerNode() is called") {
-            PlayerNode node { static_cast<size_t>(Action::ACTION_COUNT) };
             HandlePlayerNode(&node, History{});
             THEN("Opponent nodes are added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
@@ -16,9 +16,9 @@ SCENARIO("Empty Histories") {
         }
     }
 
-    GIVEN("An Opponent Node") {
+    GIVEN("An opponent node") {
+        OpponentNode node{};
         WHEN("HandleOpponentNode() is called") {
-            OpponentNode node{};
             HandleOpponentNode(&node, History{});
             THEN("Player nodes are added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
@@ -26,5 +26,11 @@ SCENARIO("Empty Histories") {
                     REQUIRE(dynamic_cast<PlayerNode*>(child.get()));
             }
         }
+    }
+}
+
+SCENARIO("One action histories") {
+    GIVEN("A check action") {
+        History history{CHECK_FOLD};
     }
 }
