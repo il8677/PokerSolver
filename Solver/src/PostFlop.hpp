@@ -1,6 +1,7 @@
 #pragma once
 #include "TreeNode.hpp"
 #include "Poker.hpp"
+#include "InformationSet.hpp"
 
 #include <memory>
 #include <array>
@@ -21,4 +22,4 @@ struct PokerCard {
 
 const int BET_LIMIT = 3;
 
-void HandlePlayerNode(PlayerNode* node);
+void HandlePlayerNode(PlayerNode* node, History);
