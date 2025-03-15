@@ -5,3 +5,7 @@ void HandlePlayerNode(PlayerNode* node, History history) {
         node->emplaceChild<OpponentNode>();
     }
 }
+
+void HandleOpponentNode(OpponentNode* node, History history) {
+
+}
