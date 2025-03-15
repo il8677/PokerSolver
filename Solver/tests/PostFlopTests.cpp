@@ -8,10 +8,22 @@ SCENARIO("Empty histories") {
         PlayerNode node { static_cast<size_t>(Action::ACTION_COUNT) };
         WHEN("HandlePlayerNode() is called") {
             HandlePlayerNode(node, History{});
-            THEN("Opponent nodes are added for each action") {
+            THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
-                for (auto& child : node) 
-                    REQUIRE(dynamic_cast<OpponentNode*>(child.get()));
+            }
+
+            THEN("The check action is the opponent node") {
+                REQUIRE(node.getChild<OpponentNode>(CHECK_FOLD));
+            }
+
+            THEN("A raise action produces an opponent node") {
+                REQUIRE(node.getChild<OpponentNode>(RAISE_HALF));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_1));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_15));
+            }
+
+            THEN("The call action produces an invalid node") {
+                REQUIRE(node.getChild<InvalidNode>(CALL));
             }
         }
     }
@@ -20,10 +32,22 @@ SCENARIO("Empty histories") {
         OpponentNode node{};
         WHEN("HandleOpponentNode() is called") {
             HandleOpponentNode(node, History{});
-            THEN("Player nodes are added for each action") {
+            THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
-                for (auto& child : node) 
-                    REQUIRE(dynamic_cast<PlayerNode*>(child.get()));
+            }
+
+            THEN("The check action is a player node") {
+                REQUIRE(node.getChild<PlayerNode>(CHECK_FOLD));
+            }
+
+            THEN("A raise action produces a player node") {
+                REQUIRE(node.getChild<PlayerNode>(RAISE_HALF));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_1));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_15));
+            }
+
+            THEN("The call action produces an invalid node") {
+                REQUIRE(node.getChild<InvalidNode>(CALL));
             }
         }
     }
