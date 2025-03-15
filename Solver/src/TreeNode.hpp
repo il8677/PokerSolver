@@ -19,7 +19,8 @@ public:
 	void emplaceChild(Args&&... args) 
 		requires(std::is_base_of_v<TreeNode, T>) {
 
-		std::unique_ptr<TreeNode>& newChild = children_.emplace_back(std::make_unique<T>(args...));
+		std::unique_ptr<TreeNode>& newChild = children_.emplace_back(
+			std::make_unique<T>(std::forward<Args>(args)...));
 		newChild->parent_ = this;
 	}
 
@@ -45,6 +46,7 @@ public:
 class VillianNode : public TreeNode {
 public:
 	VillianNode() = default;
+	VillianNode(size_t) {}
 	~VillianNode() = default;
 };
 
@@ -73,3 +75,15 @@ public:
 	InvalidNode() = default;
 	~InvalidNode() = default;
 };
+
+template<typename T>
+concept TreeNodeType = std::is_base_of_v<TreeNode, T>;
+
+template<typename T>
+concept PlayerNode = TreeNodeType<T>
+				  && std::is_same_v<T, VillianNode>
+                  || std::is_same_v<T, HeroNode>;
+
+template<PlayerNode T>
+using OpponentOf = std::conditional_t<std::is_same_v<std::decay_t<T>, VillianNode>, HeroNode, VillianNode>;
+

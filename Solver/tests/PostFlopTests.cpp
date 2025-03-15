@@ -3,11 +3,14 @@
 
 #include "PostFlop.hpp"
 
+void HandleHeroNode(HeroNode& node, const History& history) { HandlePlayerNode(node, history); }
+void HandleVillianNode(VillianNode& node, const History& history) { HandlePlayerNode(node, history); }
+
 SCENARIO("Empty histories") {
     GIVEN("A player node") {
         HeroNode node { ACTION_COUNT };
-        WHEN("HandlePlayerNode() is called") {
-            HandlePlayerNode(node, History{});
+        WHEN("HandleHeroNode() is called") {
+            HandleHeroNode(node, History{});
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
             }
@@ -24,8 +27,8 @@ SCENARIO("Empty histories") {
 
     GIVEN("An opponent node") {
         VillianNode node{};
-        WHEN("HandleOpponentNode() is called") {
-            HandleOpponentNode(node, History{});
+        WHEN("HandleVillianNode() is called") {
+            HandleVillianNode(node, History{});
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
             }
@@ -44,9 +47,9 @@ SCENARIO("Empty histories") {
 SCENARIO("One action histories") {
     GIVEN("A check action") {
         const History history{ CHECK_FOLD };
-        WHEN("HandlePlayerNode() is called") {
+        WHEN("HandleHeroNode() is called") {
             HeroNode node{ static_cast<size_t>(Action::ACTION_COUNT) };
-            HandlePlayerNode(node, history);
+            HandleHeroNode(node, history);
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
             }
@@ -60,9 +63,9 @@ SCENARIO("One action histories") {
             }
         }
 
-        WHEN("HandleOpponentNode() is called") {
+        WHEN("HandleVillianNode() is called") {
             VillianNode node;
-            HandleOpponentNode(node, history);
+            HandleVillianNode(node, history);
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
             }
@@ -79,9 +82,9 @@ SCENARIO("One action histories") {
 
     GIVEN("A raise action") {
         const History history{ RAISE_HALF };
-        WHEN("HandlePlayerNode() is called"){
+        WHEN("HandleHeroNode() is called"){
             HeroNode node{ ACTION_COUNT };
-            HandlePlayerNode(node, history);
+            HandleHeroNode(node, history);
 
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
@@ -96,9 +99,9 @@ SCENARIO("One action histories") {
             }
         }
 
-        WHEN("HandleOpponentNode() is called") {
+        WHEN("HandleVillianNode() is called") {
             VillianNode node;
-            HandleOpponentNode(node, history);
+            HandleVillianNode(node, history);
 
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
@@ -118,9 +121,9 @@ SCENARIO("One action histories") {
 SCENARIO("Raising") {
     GIVEN("OP open IP continue") {
         History history{RAISE_1, RAISE_1};
-        WHEN("HandlePlayerNode is called") {
+        WHEN("HandleHeroNode is called") {
             HeroNode node{ ACTION_COUNT };
-            HandlePlayerNode(node, history);
+            HandleHeroNode(node, history);
 
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
@@ -135,9 +138,9 @@ SCENARIO("Raising") {
             }
         }
 
-        WHEN("HandleOpponentNode is called") {
+        WHEN("HandleVillianNode is called") {
             VillianNode node;
-            HandleOpponentNode(node, history);
+            HandleVillianNode(node, history);
 
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
@@ -155,9 +158,9 @@ SCENARIO("Raising") {
 
     GIVEN("OP open OP continue") {
         History history{RAISE_1, RAISE_1, RAISE_1};
-        WHEN("HandlePlayerNode is called") {
+        WHEN("HandleHeroNode is called") {
             HeroNode node{ ACTION_COUNT };
-            HandlePlayerNode(node, history);
+            HandleHeroNode(node, history);
 
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
@@ -172,9 +175,9 @@ SCENARIO("Raising") {
             }
         }
 
-        WHEN("HandleOpponentNode is called") {
+        WHEN("HandleVillianNode is called") {
             VillianNode node;
-            HandleOpponentNode(node, history);
+            HandleVillianNode(node, history);
 
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);

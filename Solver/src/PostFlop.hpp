@@ -24,5 +24,30 @@ struct PokerCard {
 
 const int BET_LIMIT = 3;
 
-void HandlePlayerNode(HeroNode& node, const History&);
-void HandleOpponentNode(VillianNode& node, const History&);
+bool IsRaise(Action action);
+bool IsEndOfBetting(const History& history);
+
+template<PlayerNode HandledType, TreeNodeType BettingEndType = CardNode>
+void HandlePlayerNode(HandledType& node, const History& history) {
+    using NextPlayerType = OpponentOf<HandledType>;
+
+    History newHistory = { history };
+    newHistory.emplace_back();
+    for (size_t i = 0; i < Action::ACTION_COUNT; i++) {
+        newHistory.back() = static_cast<Action>(i);
+
+        const bool lastActionIsRaise = history.size() && IsRaise(history.back());
+        
+        if (lastActionIsRaise && newHistory.back() == CHECK_FOLD) {
+            node.template emplaceChild<TerminalNode>();
+        } 
+        else if (!lastActionIsRaise && newHistory.back() == CALL) {
+            node.template emplaceChild<InvalidNode>();
+        } else if (IsEndOfBetting(newHistory)) {
+            node.template emplaceChild<BettingEndType>();
+        } else {
+            node.template emplaceChild<NextPlayerType>(ACTION_COUNT);
+        }
+    }
+}
+
