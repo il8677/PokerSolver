@@ -24,5 +24,5 @@ struct PokerCard {
 
 const int BET_LIMIT = 3;
 
-void HandlePlayerNode(PlayerNode* node, const History&);
-void HandleOpponentNode(OpponentNode* node, const History&);
+void HandlePlayerNode(PlayerNode& node, const History&);
+void HandleOpponentNode(OpponentNode& node, const History&);

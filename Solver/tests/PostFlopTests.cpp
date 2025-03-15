@@ -7,7 +7,7 @@ SCENARIO("Empty histories") {
     GIVEN("A player node") {
         PlayerNode node { static_cast<size_t>(Action::ACTION_COUNT) };
         WHEN("HandlePlayerNode() is called") {
-            HandlePlayerNode(&node, History{});
+            HandlePlayerNode(node, History{});
             THEN("Opponent nodes are added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
                 for (auto& child : node) 
@@ -19,7 +19,7 @@ SCENARIO("Empty histories") {
     GIVEN("An opponent node") {
         OpponentNode node{};
         WHEN("HandleOpponentNode() is called") {
-            HandleOpponentNode(&node, History{});
+            HandleOpponentNode(node, History{});
             THEN("Player nodes are added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
                 for (auto& child : node) 
