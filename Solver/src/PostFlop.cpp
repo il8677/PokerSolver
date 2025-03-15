@@ -25,7 +25,8 @@ void HandlePlayerNode(PlayerNode& node, const History& history) {
     for (size_t i = 0; i < Action::ACTION_COUNT; i++) {
         newHistory.back() = static_cast<Action>(i);
 
-        if (history.size() && !IsRaise(history.back()) && newHistory.back() == CALL) {
+        const bool lastActionNotRaise = !history.size() || !IsRaise(history.back());
+        if (lastActionNotRaise && newHistory.back() == CALL) {
             node.emplaceChild<InvalidNode>();
         } else if (IsEndOfBetting(newHistory)) {
             node.emplaceChild<CardNode>();
@@ -41,7 +42,8 @@ void HandleOpponentNode(OpponentNode& node, const History& history) {
     for (size_t i = 0; i < Action::ACTION_COUNT; i++) {
         newHistory.back() = static_cast<Action>(i);
 
-        if (history.size() && !IsRaise(history.back()) && newHistory.back() == CALL) {
+        const bool lastActionNotRaise = !history.size() || !IsRaise(history.back());
+        if (lastActionNotRaise && newHistory.back() == CALL) {
             node.emplaceChild<InvalidNode>();
         } else if (IsEndOfBetting(newHistory)) {
             node.emplaceChild<CardNode>();
