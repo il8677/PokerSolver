@@ -1,7 +1,14 @@
 #include "PostFlop.hpp"
 
 bool IsEndOfBetting(const History& history) {
-    return history.size() % 2 == 0;
+    switch (history.back()) {
+    case RAISE_HALF:
+    case RAISE_1:
+    case RAISE_15:
+        return false;
+    default:
+        return history.size() % 2 == 0;;
+    }
 }
 
 void HandlePlayerNode(PlayerNode& node, const History& history) {

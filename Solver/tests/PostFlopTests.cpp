@@ -42,10 +42,16 @@ SCENARIO("One action histories") {
             THEN("The check action is a card node") {
                 REQUIRE(dynamic_cast<CardNode*>(node.getChild(CHECK_FOLD)));
             }
+
+            THEN("A raise action produces an opponent node") {
+                REQUIRE(dynamic_cast<OpponentNode*>(node.getChild(RAISE_HALF)));
+                REQUIRE(dynamic_cast<OpponentNode*>(node.getChild(RAISE_1)));
+                REQUIRE(dynamic_cast<OpponentNode*>(node.getChild(RAISE_15)));
+            }
         }
 
         WHEN("HandleOpponentNode() is called") {
-            OpponentNode node{ static_cast<size_t>(Action::ACTION_COUNT) };
+            OpponentNode node;
             HandleOpponentNode(node, history);
             THEN("A node is added for each action") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
@@ -53,6 +59,12 @@ SCENARIO("One action histories") {
 
             THEN("The check action is a card node") {
                 REQUIRE(dynamic_cast<CardNode*>(node.getChild(CHECK_FOLD)));
+            }
+
+            THEN("A raise action produces a player node") {
+                REQUIRE(dynamic_cast<PlayerNode*>(node.getChild(RAISE_HALF)));
+                REQUIRE(dynamic_cast<PlayerNode*>(node.getChild(RAISE_1)));
+                REQUIRE(dynamic_cast<PlayerNode*>(node.getChild(RAISE_15)));
             }
         }
     }
