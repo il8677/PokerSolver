@@ -12,18 +12,12 @@ SCENARIO("Empty histories") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
             }
 
-            THEN("The check action is the opponent node") {
+            THEN("The child types are correct") {
                 REQUIRE(node.getChild<OpponentNode>(CHECK_FOLD));
-            }
-
-            THEN("A raise action produces an opponent node") {
+                REQUIRE(node.getChild<InvalidNode> (CALL));
                 REQUIRE(node.getChild<OpponentNode>(RAISE_HALF));
                 REQUIRE(node.getChild<OpponentNode>(RAISE_1));
                 REQUIRE(node.getChild<OpponentNode>(RAISE_15));
-            }
-
-            THEN("The call action produces an invalid node") {
-                REQUIRE(node.getChild<InvalidNode>(CALL));
             }
         }
     }
@@ -36,18 +30,12 @@ SCENARIO("Empty histories") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
             }
 
-            THEN("The check action is a player node") {
+            THEN("The child types are correct") {
                 REQUIRE(node.getChild<PlayerNode>(CHECK_FOLD));
-            }
-
-            THEN("A raise action produces a player node") {
+                REQUIRE(node.getChild<InvalidNode>(CALL));
                 REQUIRE(node.getChild<PlayerNode>(RAISE_HALF));
                 REQUIRE(node.getChild<PlayerNode>(RAISE_1));
                 REQUIRE(node.getChild<PlayerNode>(RAISE_15));
-            }
-
-            THEN("The call action produces an invalid node") {
-                REQUIRE(node.getChild<InvalidNode>(CALL));
             }
         }
     }
@@ -63,18 +51,12 @@ SCENARIO("One action histories") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
             }
 
-            THEN("The check action is a card node") {
-                REQUIRE(dynamic_cast<CardNode*>(node.getChild(CHECK_FOLD)));
-            }
-
-            THEN("A raise action produces an opponent node") {
+            THEN("The child types are correct") {
+                REQUIRE(node.getChild<CardNode>    (CHECK_FOLD));
+                REQUIRE(node.getChild<InvalidNode> (CALL));
                 REQUIRE(node.getChild<OpponentNode>(RAISE_HALF));
                 REQUIRE(node.getChild<OpponentNode>(RAISE_1));
                 REQUIRE(node.getChild<OpponentNode>(RAISE_15));
-            }
-
-            THEN("The call action produces an invalid node") {
-                REQUIRE(node.getChild<InvalidNode>(CALL));
             }
         }
 
@@ -85,18 +67,12 @@ SCENARIO("One action histories") {
                 REQUIRE(node.getChildCount() == ACTION_COUNT);
             }
 
-            THEN("The check action is a card node") {
-                REQUIRE(dynamic_cast<CardNode*>(node.getChild(CHECK_FOLD)));
-            }
-
-            THEN("A raise action produces a player node") {
-                REQUIRE(node.getChild<PlayerNode>(RAISE_HALF));
-                REQUIRE(node.getChild<PlayerNode>(RAISE_1));
-                REQUIRE(node.getChild<PlayerNode>(RAISE_15));
-            }
-
-            THEN("The call action produces an invalid node") {
+            THEN("The child types are correct") {
+                REQUIRE(node.getChild<CardNode>   (CHECK_FOLD));
                 REQUIRE(node.getChild<InvalidNode>(CALL));
+                REQUIRE(node.getChild<PlayerNode> (RAISE_HALF));
+                REQUIRE(node.getChild<PlayerNode> (RAISE_1));
+                REQUIRE(node.getChild<PlayerNode> (RAISE_15));
             }
         }
     }
