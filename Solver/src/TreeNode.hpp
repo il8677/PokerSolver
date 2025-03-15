@@ -3,8 +3,6 @@
 #include <vector>
 #include <memory>
 
-
-
 class TreeNode {
 protected:
 	TreeNode() = default;
@@ -26,6 +24,9 @@ public:
 	}
 
 	TreeNode* getChild(size_t i) { return children_[i].get(); }
+	
+	template <typename T>
+	T* getChild(size_t i) { return dynamic_cast<T*>(children_[i].get()); }
 
 	auto begin() { return children_.begin(); }
 	auto end()   { return children_.end(); }

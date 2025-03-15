@@ -44,9 +44,9 @@ SCENARIO("One action histories") {
             }
 
             THEN("A raise action produces an opponent node") {
-                REQUIRE(dynamic_cast<OpponentNode*>(node.getChild(RAISE_HALF)));
-                REQUIRE(dynamic_cast<OpponentNode*>(node.getChild(RAISE_1)));
-                REQUIRE(dynamic_cast<OpponentNode*>(node.getChild(RAISE_15)));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_HALF));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_1));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_15));
             }
         }
 
@@ -62,9 +62,9 @@ SCENARIO("One action histories") {
             }
 
             THEN("A raise action produces a player node") {
-                REQUIRE(dynamic_cast<PlayerNode*>(node.getChild(RAISE_HALF)));
-                REQUIRE(dynamic_cast<PlayerNode*>(node.getChild(RAISE_1)));
-                REQUIRE(dynamic_cast<PlayerNode*>(node.getChild(RAISE_15)));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_HALF));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_1));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_15));
             }
         }
     }
