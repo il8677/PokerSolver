@@ -36,6 +36,6 @@ SCENARIO("Opponent nodes") {
 
 SCENARIO("Player nodes") {
 	GIVEN("A player node with 3 actions") {
-		PlayerNode player(3);
+		HeroNode player(3);
 	}
 }
