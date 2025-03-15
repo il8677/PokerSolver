@@ -12,11 +12,12 @@ bool IsRaise(Action action) {
 }
 
 bool IsEndOfBetting(const History& history) {
-    if (IsRaise(history.back())) {
+    if (IsRaise(history.back()))
         return false;
-    }
+    if (history.back() == CALL)
+        return true;
 
-    return history.size() % 2 == 0;;
+    return history.size() == 2;
 }
 
 void HandlePlayerNode(PlayerNode& node, const History& history) {
