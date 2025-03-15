@@ -115,3 +115,78 @@ SCENARIO("One action histories") {
     }
 }
 
+SCENARIO("Raising") {
+    GIVEN("OP open IP continue") {
+        History history{RAISE_1, RAISE_1};
+        WHEN("HandlePlayerNode is called") {
+            PlayerNode node{ ACTION_COUNT };
+            HandlePlayerNode(node, history);
+
+            THEN("A node is added for each action") {
+                REQUIRE(node.getChildCount() == ACTION_COUNT);
+            }
+
+            THEN("The child types are correct") {
+                REQUIRE(node.getChild<TerminalNode>(CHECK_FOLD));
+                REQUIRE(node.getChild<CardNode>(CALL));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_HALF));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_1));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_15));
+            }
+        }
+
+        WHEN("HandleOpponentNode is called") {
+            OpponentNode node;
+            HandleOpponentNode(node, history);
+
+            THEN("A node is added for each action") {
+                REQUIRE(node.getChildCount() == ACTION_COUNT);
+            }
+
+            THEN("The child types are correct") {
+                REQUIRE(node.getChild<TerminalNode>(CHECK_FOLD));
+                REQUIRE(node.getChild<CardNode>(CALL));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_HALF));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_1));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_15));
+            }
+        }
+    }
+
+    GIVEN("OP open OP continue") {
+        History history{RAISE_1, RAISE_1, RAISE_1};
+        WHEN("HandlePlayerNode is called") {
+            PlayerNode node{ ACTION_COUNT };
+            HandlePlayerNode(node, history);
+
+            THEN("A node is added for each action") {
+                REQUIRE(node.getChildCount() == ACTION_COUNT);
+            }
+
+            THEN("The child types are correct") {
+                REQUIRE(node.getChild<TerminalNode>(CHECK_FOLD));
+                REQUIRE(node.getChild<CardNode>(CALL));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_HALF));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_1));
+                REQUIRE(node.getChild<OpponentNode>(RAISE_15));
+            }
+        }
+
+        WHEN("HandleOpponentNode is called") {
+            OpponentNode node;
+            HandleOpponentNode(node, history);
+
+            THEN("A node is added for each action") {
+                REQUIRE(node.getChildCount() == ACTION_COUNT);
+            }
+
+            THEN("The child types are correct") {
+                REQUIRE(node.getChild<TerminalNode>(CHECK_FOLD));
+                REQUIRE(node.getChild<CardNode>(CALL));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_HALF));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_1));
+                REQUIRE(node.getChild<PlayerNode>(RAISE_15));
+            }
+        }
+    }
+}
