@@ -22,8 +22,10 @@ SCENARIO("Opponent Node Generation") {
         GIVEN("An Opponent Node and an empty history") {
             OpponentNode node{};
             HandleOpponentNode(&node, History{});
-            THEN("") {
-
+            THEN("Player nodes are added for each action") {
+                REQUIRE(node.getChildCount() == ACTION_COUNT);
+                for (auto& child : node) 
+                    REQUIRE(dynamic_cast<PlayerNode*>(child.get()));
             }
         }
     }
