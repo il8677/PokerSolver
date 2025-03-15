@@ -67,3 +67,9 @@ public:
 	~TerminalNode() = default;
 private:
 };
+
+class InvalidNode : public TreeNode {
+public:
+	InvalidNode() = default;
+	~InvalidNode() = default;
+};

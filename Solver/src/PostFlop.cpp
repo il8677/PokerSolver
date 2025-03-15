@@ -1,14 +1,22 @@
 #include "PostFlop.hpp"
 
-bool IsEndOfBetting(const History& history) {
-    switch (history.back()) {
+bool IsRaise(Action action) {
+    switch (action) {
     case RAISE_HALF:
     case RAISE_1:
     case RAISE_15:
-        return false;
+        return true;
     default:
-        return history.size() % 2 == 0;;
+        return false;
     }
+}
+
+bool IsEndOfBetting(const History& history) {
+    if (IsRaise(history.back())) {
+        return false;
+    }
+
+    return history.size() % 2 == 0;;
 }
 
 void HandlePlayerNode(PlayerNode& node, const History& history) {
@@ -16,7 +24,10 @@ void HandlePlayerNode(PlayerNode& node, const History& history) {
     newHistory.emplace_back();
     for (size_t i = 0; i < Action::ACTION_COUNT; i++) {
         newHistory.back() = static_cast<Action>(i);
-        if (IsEndOfBetting(newHistory)) {
+
+        if (history.size() && !IsRaise(history.back()) && newHistory.back() == CALL) {
+            node.emplaceChild<InvalidNode>();
+        } else if (IsEndOfBetting(newHistory)) {
             node.emplaceChild<CardNode>();
         } else {
             node.emplaceChild<OpponentNode>();
@@ -29,7 +40,10 @@ void HandleOpponentNode(OpponentNode& node, const History& history) {
     newHistory.emplace_back();
     for (size_t i = 0; i < Action::ACTION_COUNT; i++) {
         newHistory.back() = static_cast<Action>(i);
-        if(IsEndOfBetting(newHistory)) {
+
+        if (history.size() && !IsRaise(history.back()) && newHistory.back() == CALL) {
+            node.emplaceChild<InvalidNode>();
+        } else if (IsEndOfBetting(newHistory)) {
             node.emplaceChild<CardNode>();
         } else {
             node.emplaceChild<PlayerNode>(Action::ACTION_COUNT);

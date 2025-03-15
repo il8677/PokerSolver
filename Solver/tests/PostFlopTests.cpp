@@ -48,6 +48,10 @@ SCENARIO("One action histories") {
                 REQUIRE(node.getChild<OpponentNode>(RAISE_1));
                 REQUIRE(node.getChild<OpponentNode>(RAISE_15));
             }
+
+            THEN("The call action produces an invalid node") {
+                REQUIRE(node.getChild<InvalidNode>(CALL));
+            }
         }
 
         WHEN("HandleOpponentNode() is called") {
@@ -66,6 +70,11 @@ SCENARIO("One action histories") {
                 REQUIRE(node.getChild<PlayerNode>(RAISE_1));
                 REQUIRE(node.getChild<PlayerNode>(RAISE_15));
             }
+
+            THEN("The call action produces an invalid node") {
+                REQUIRE(node.getChild<InvalidNode>(CALL));
+            }
         }
     }
 }
+
