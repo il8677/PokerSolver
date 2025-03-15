@@ -20,7 +20,7 @@ bool IsEndOfBetting(const History& history) {
     return history.size() == 2;
 }
 
-void HandlePlayerNode(PlayerNode& node, const History& history) {
+void HandlePlayerNode(HeroNode& node, const History& history) {
     History newHistory = { history };
     newHistory.emplace_back();
     for (size_t i = 0; i < Action::ACTION_COUNT; i++) {
@@ -35,12 +35,12 @@ void HandlePlayerNode(PlayerNode& node, const History& history) {
         } else if (IsEndOfBetting(newHistory)) {
             node.emplaceChild<CardNode>();
         } else {
-            node.emplaceChild<OpponentNode>();
+            node.emplaceChild<VillianNode>();
         }
     }
 }
 
-void HandleOpponentNode(OpponentNode& node, const History& history) {
+void HandleOpponentNode(VillianNode& node, const History& history) {
     History newHistory = { history };
     newHistory.emplace_back();
     for (size_t i = 0; i < Action::ACTION_COUNT; i++) {
@@ -55,7 +55,7 @@ void HandleOpponentNode(OpponentNode& node, const History& history) {
         } else if (IsEndOfBetting(newHistory)) {
             node.emplaceChild<CardNode>();
         } else {
-            node.emplaceChild<PlayerNode>(ACTION_COUNT);
+            node.emplaceChild<HeroNode>(ACTION_COUNT);
         }
     }
 }

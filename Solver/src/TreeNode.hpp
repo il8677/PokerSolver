@@ -42,20 +42,20 @@ public:
 	~CardNode() = default;
 };
 
-class OpponentNode : public TreeNode {
+class VillianNode : public TreeNode {
 public:
-	OpponentNode() = default;
-	~OpponentNode() = default;
+	VillianNode() = default;
+	~VillianNode() = default;
 };
 
-class PlayerNode : public TreeNode {
+class HeroNode : public TreeNode {
 	struct CalcData{
 		float reachProbability;
 		float totalRegret;
 	};
 public:
-	PlayerNode(size_t actionCount) : data_(actionCount) {}
-	~PlayerNode() = default;
+	HeroNode(size_t actionCount) : data_(actionCount) {}
+	~HeroNode() = default;
 
 private:
 	std::vector<CalcData> data_;
