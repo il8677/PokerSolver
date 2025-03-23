@@ -26,9 +26,12 @@ const int BET_LIMIT = 3;
 
 bool IsRaise(Action action);
 bool IsEndOfBetting(const History& history);
+bool IsEndOfGame(const History& history);
 
-template<PlayerNode HandledType, TreeNodeType BettingEndType = CardNode>
-void HandlePlayerNode(HandledType& node, const History& history) {
+std::unique_ptr<TreeNode> BuildGameTree(bool heroInPosition);
+
+template<PlayerNode HandledType>
+void HandlePlayerNode(HandledType& node, const History& history, bool invalidateRaises=false) {
     using NextPlayerType = OpponentOf<HandledType>;
 
     History newHistory = { history };
@@ -38,13 +41,16 @@ void HandlePlayerNode(HandledType& node, const History& history) {
 
         const bool lastActionIsRaise = history.size() && IsRaise(history.back());
         
-        if (lastActionIsRaise && newHistory.back() == CHECK_FOLD) {
+        if (invalidateRaises && IsRaise(newHistory.back())) {
+            node.template emplaceChild<InvalidNode>();
+        } else if (lastActionIsRaise && newHistory.back() == CHECK_FOLD) {
             node.template emplaceChild<TerminalNode>();
-        } 
-        else if (!lastActionIsRaise && newHistory.back() == CALL) {
+        } else if (!lastActionIsRaise && newHistory.back() == CALL) {
+            node.template emplaceChild<InvalidNode>();
+        } else if (IsEndOfGame(newHistory)) {
             node.template emplaceChild<InvalidNode>();
         } else if (IsEndOfBetting(newHistory)) {
-            node.template emplaceChild<BettingEndType>();
+            node.template emplaceChild<CardNode>();
         } else {
             node.template emplaceChild<NextPlayerType>(ACTION_COUNT);
         }

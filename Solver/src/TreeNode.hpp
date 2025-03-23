@@ -15,13 +15,17 @@ public:
 
 	size_t getChildCount() const { return children_.size(); }
 
+	TreeNode* getParent() { return parent_;  }
+
 	template <typename T, typename... Args>
-	void emplaceChild(Args&&... args) 
+	T& emplaceChild(Args&&... args) 
 		requires(std::is_base_of_v<TreeNode, T>) {
 
 		std::unique_ptr<TreeNode>& newChild = children_.emplace_back(
 			std::make_unique<T>(std::forward<Args>(args)...));
 		newChild->parent_ = this;
+
+		return static_cast<T&>(*newChild);
 	}
 
 	TreeNode* getChild(size_t i) { return children_[i].get(); }
@@ -80,8 +84,7 @@ template<typename T>
 concept TreeNodeType = std::is_base_of_v<TreeNode, T>;
 
 template<typename T>
-concept PlayerNode = TreeNodeType<T>
-				  && std::is_same_v<T, VillianNode>
+concept PlayerNode = std::is_same_v<T, VillianNode>
                   || std::is_same_v<T, HeroNode>;
 
 template<PlayerNode T>

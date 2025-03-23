@@ -193,3 +193,35 @@ SCENARIO("Raising") {
         }
     }
 }
+
+SCENARIO("End of game") {
+    GIVEN("An end game history") {
+        History history{ CHECK_FOLD, RAISE_1, CALL, CHECK_FOLD };
+        WHEN("When HandleHeroNode is called") {
+            HeroNode node{ ACTION_COUNT };
+            HandleHeroNode(node, history);
+
+            THEN("A node is added for each action") {
+                REQUIRE(node.getChildCount() == ACTION_COUNT);
+            }
+
+            THEN("The child types are correct") {
+                REQUIRE(node.getChild<TerminalNode>(CHECK_FOLD));
+                REQUIRE(node.getChild<InvalidNode>(CALL));
+                REQUIRE(node.getChild<VillianNode>(RAISE_HALF));
+                REQUIRE(node.getChild<VillianNode>(RAISE_1));
+                REQUIRE(node.getChild<VillianNode>(RAISE_15));
+            }
+        }
+    }
+}
+
+SCENARIO("BuildGameTree tests") {
+    WHEN("BuildGameTree is called") {
+        //auto tree = BuildGameTree(false);
+        THEN("The game tree is correct") {
+
+        }
+    }
+}
+
