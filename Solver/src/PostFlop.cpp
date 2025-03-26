@@ -81,33 +81,31 @@ private:
         }
     }
 
+    void processLayer(std::deque<TreeNode*>& layer) {
+        std::deque<TreeNode*> nextLayer;
+
+        for (TreeNode* n : layer) {
+            buildNode(*n);
+            for (size_t i = 0; i < n->getChildCount(); i++) {
+                TreeNode* node = n->getChild(i);
+
+                if (dynamic_cast<PlayerNode*>(node) || dynamic_cast<VillianNode*>(node) || dynamic_cast<CardNode*>(node) {
+                    nextLayer.push_back(node);
+                }
+            }
+        }
+        
+        layer = std::move(nextLayer);
+    }
+
     std::unique_ptr<TreeNode> buildGameTree() {
         auto root = std::make_unique<CardNode>();
         auto& firstPlayer = root->template emplaceChild<OutPositionNode>(ACTION_COUNT);
         HandlePlayerNode<>(firstPlayer, History{});
 
-        using VisitableNode = 
-            std::variant<CardNode*, VillianNode*, HeroNode*>;
-
         std::deque<TreeNode*> thisLayer{ &firstPlayer };
         while(thisLayer.size()) {
-            std::deque<TreeNode*> nextLayer;
-            while (thisLayer.size()) {
-                auto* next = thisLayer.front();
-                if(dynamic_cast<VillianNode*>(next) 
-                || dynamic_cast<HeroNode*>(next)) 
-                    nextLayer.push_back(next);
-
-                thisLayer.pop_front();
-            }
-            if (nextLayer.size() == 0) break;
-
-            for (TreeNode* n : nextLayer) {
-                buildNode(*n);
-            }
-
-            
-            thisLayer = std::move(nextLayer);
+            processLayer(layer);
         }
 
         return root;
